@@ -1,6 +1,10 @@
 from google.cloud import language_v1
 from textblob import TextBlob
 import json
+import regex
+import os
+
+# import requests
 
 def analyse_sentiment_textblob(text_content):
     return TextBlob(text_content).sentiment.polarity
@@ -13,6 +17,9 @@ def analyse_sentiment_google(text_content):
         text_content (str): The text content to analyse.
     """
 
+    # cred_path = os.getcwd() + 'uplift.json'
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'uplift.json'
+    
     client = language_v1.LanguageServiceClient()
 
     # Available types: PLAIN_TEXT, HTML
@@ -71,8 +78,17 @@ def analyse_sentiment_avg(text_content):
     
     return round(result, 2)
 
+def content_score(title, description, content):
+    content = regex.sub(r"\….*", '', content)
+    text = title + description + content
+    return analyse_sentiment_avg(text)
+
 def main():
-    analyse_sentiment_avg_test()
+    pass
+    # response = requests.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=f1db92c3cee347cf85bc56c4226da4ab')
+    # top_article = response.json()['articles'][0]
+    # print(top_article)
+    # print(content_score(top_article['title'], top_article['description'], top_article['content']))
 
 if __name__ == "__main__":
     main()

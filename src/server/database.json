@@ -4,25 +4,39 @@
             {
                 "title": "Covid-19 is over!",
                 "source": "BBC News",
-                "score": "50",
+                "score": 50,
                 "author": "John Cena",
                 "date_added": "1657975362"
             },
             {
                 "title": "John Cena defeats Tom",
                 "source": "ABC News",
-                "score": "-80",
+                "score": -80,
                 "author": "Irwin",
                 "date_added": "1657975610"
+            },
+            {
+                "title": "John Cena defeats himself!!",
+                "source": "ABC News",
+                "score": -20,
+                "author": "Irwin2",
+                "date_added": "1657975720"
             }
         ],
         "27874d3a77884d009beed2aa9d5d12d7": [
             {
                 "title": "New user",
                 "source": "CBC News",
-                "score": "60",
+                "score": 60,
                 "author": "Johnny",
                 "date_added": "1657975671"
+            },
+            {
+                "title": "Ivana Trump\u2019s New York",
+                "source": "New York Times",
+                "score": 5.61,
+                "author": "Dodai Stewart",
+                "date_added": "00:57:59"
             }
         ]
     }

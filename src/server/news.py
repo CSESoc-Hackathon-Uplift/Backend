@@ -66,8 +66,6 @@ def get_latest_news(category, search=None, country=None):
                                                     language='en',
                                                     country=country)
 
-        print('HELLO')
-
     return articles
 
 if __name__ == "__main__":
