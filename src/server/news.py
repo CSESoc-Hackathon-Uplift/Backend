@@ -7,6 +7,7 @@
 
 import json
 from newsapi import NewsApiClient
+import requests
 
 # track what articles they've been reading -> information from frontend
 def get_api_key():
@@ -21,6 +22,9 @@ def get_base_url():
     
     return data["base_url"]
 
+def get_everything(query_string):
+    return requests.get(f"https://newsapi.org/v2/everything?apiKey={get_api_key()}{query_string}").json()
+
 def get_latest_news(category, search=None, country=None):
     """ 
         Gets the latest news for a particular search, catergory or location
@@ -33,8 +37,14 @@ def get_latest_news(category, search=None, country=None):
 
     # Initialise
     newsapi = NewsApiClient(api_key=api_key)
+    
+    query = ""
+    
+    if search:
+        query += f"&q={search}"
+    articles = get_everything()
 
-    if (category == None or category == '' or (category not in categories)) and (not country or (country not in countries)):
+    if not category or not country:
         # category = 'business,entertainment,general,health,science,sports,technology'
         # /v2/everything
         if search:
