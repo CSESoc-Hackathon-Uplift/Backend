@@ -43,3 +43,36 @@ def analyse_sentiment_google(text_content):
     # the automatically-detected language.
     # print(u"Language of the text: {}".format(response.language))
 
+def analyse_sentiment_avg_test():
+    # load the headlines from the JSON file
+    with open("tests.json") as f:
+        tests = json.load(f)
+
+    headlines = tests["headlines"]
+    
+    # for each headline
+    for index, headline in enumerate(headlines):
+        # average the sentiment analysis from google and textblob
+        google = analyse_sentiment_google(headline) * 100
+        textblob = analyse_sentiment_textblob(headline) * 100
+        average_sentiment_anlysis = (google + textblob) / 2
+        
+        if index:
+            print(f"\n{headline}\n{round(average_sentiment_anlysis, 2)}")
+        else:
+            print(f"{headline}\n{round(average_sentiment_anlysis, 2)}")
+        
+        print(f"Google: {round(google, 2)} Textblob: {round(textblob, 2)}")
+
+def analyse_sentiment_avg(text_content):
+    google = analyse_sentiment_google(text_content) * 100
+    textblob = analyse_sentiment_textblob(text_content) * 100
+    result = (google + textblob) / 2
+    
+    return round(result, 2)
+
+def main():
+    analyse_sentiment_avg_test()
+
+if __name__ == "__main__":
+    main()
