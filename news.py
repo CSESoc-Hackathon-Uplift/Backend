@@ -6,7 +6,7 @@
 # query based on category / location
 
 import json
-import requests
+from newsapi import NewsApiClient
 
 # track what articles they've been reading -> information from frontend
 def get_api_key():
@@ -21,38 +21,44 @@ def get_base_url():
     
     return data["base_url"]
 
-def get_latest_news(search=None, category=None, location="Australia"):
+def get_latest_news(category, search=None, country=None):
     """ 
         Gets the latest news for a particular search, catergory or location
     """
-
-    api_key = get_api_key()
-    base_url = get_base_url()
     
-    if search == None:
-        query = base_url + f'everything?q='
+    api_key = get_api_key()
 
-    # search_keywords = "Texas heatwave and energy crunch curtails Bitcoin mining"
-    search_keywords = "Crosby, Stills and Nash return to Spotify after COVID-19 misinformation boycott"
-    query = base_url+f'everything?q={search_keywords}&apiKey={api_key}'
-    response = requests.get(query)
-    print(response.json()['articles'])
-    # for word in search_keywords.split():
-    #     keyword = word
-    #     query = base_url+f'everything?q="{keyword}"&apiKey={api_key}'
-    #     response = requests.get(query)
-    #     print(response.json()['articles'][2])
-        # for article in response.json()['articles'][2]:
-        #     print('---')
-        #     print('Title: ', article['title'])
-        #     print('From: ', article['source']['name'])
-        #     print('Description: ', article['description'])
-    # https://newsapi.org/v2/everything?q=bitcoin&apiKey=API_KEY
-    # https://newsapi.org/v2/?q=bitcoin&apiKey=f1db92c3cee347cf85bc56c4226da4ab
-    # print(query)
-    # response = requests.get(query)
-    # print(len(response.json()['articles']))
-    # print(response.json()['articles'])
+    categories = {'business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'}
+    countries = {'ae,ar,at,au,be,bg,br,ca,ch,cn,co,cu,cz,de,eg,fr,gb,gr,hk,hu,id,ie,il,in,it,jp,kr,lt,lv,ma,mx,my,ng,nl,no,nz,ph,pl,pt,ro,rs,ru,sa,se,sg,si,sk,th,tr,tw,ua,us,ve,za'}
+
+    # Initialise
+    newsapi = NewsApiClient(api_key=api_key)
+
+    if (category == None or category == '' or (category not in categories)) and (not country or (country not in countries)):
+        # category = 'business,entertainment,general,health,science,sports,technology'
+        # /v2/everything
+        if search:
+            articles = newsapi.get_everything(q=search,
+                                                language='en',
+                                                sort_by='relevancy')
+        else:
+            articles = newsapi.get_everything(language='en',
+                                                sort_by='relevancy')
+    else:
+        # /v2/top-headlines
+        if search:
+            articles = newsapi.get_top_headlines(q=search,
+                                                    category=category,
+                                                    language='en',
+                                                    country=country)
+        else:
+            articles = newsapi.get_top_headlines(category=category,
+                                                    language='en',
+                                                    country=country)
+
+        print('HELLO')
+
+    return articles
 
 if __name__ == "__main__":
-    print(get_latest_news())
+    print(get_latest_news('business', 'bitcoin', 'au'))
