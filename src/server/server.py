@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 from history import History
 from datetime import datetime
 from sentiment import content_score
@@ -8,6 +9,7 @@ import requests
 import os
 
 APP = Flask(__name__)
+CORS(APP)
 
 with open("news.json") as f:
     news = json.load(f)
@@ -23,7 +25,12 @@ def get_news():
     """ Get general news for a particular topic """
 
     search = request.args.get("search")
-    return requests.get(f"{news['base_url']}/v2/everything?apiKey={news['api_key']}&q={search}").json()
+    response = requests.get(f"{news['base_url']}/v2/everything?apiKey={news['api_key']}&q={search}").json()
+    article_list = response['articles'][:15]
+    for item in article_list:
+        item['score'] = content_score(item['title'], item['description'], item['content'])
+    
+    return {'articles': article_list}
 
 @APP.route('/news/headlines', methods=["GET"])
 def get_news_headlines():
