@@ -1,0 +1,29 @@
+{
+    "users": {
+        "3c4d947dcff94c1ab50604284cbbe4be": [
+            {
+                "title": "Covid-19 is over!",
+                "source": "BBC News",
+                "score": "50",
+                "author": "John Cena",
+                "date_added": "1657975362"
+            },
+            {
+                "title": "John Cena defeats Tom",
+                "source": "ABC News",
+                "score": "-80",
+                "author": "Irwin",
+                "date_added": "1657975610"
+            }
+        ],
+        "27874d3a77884d009beed2aa9d5d12d7": [
+            {
+                "title": "New user",
+                "source": "CBC News",
+                "score": "60",
+                "author": "Johnny",
+                "date_added": "1657975671"
+            }
+        ]
+    }
+}
