@@ -48,7 +48,12 @@ def get_news_headlines():
     if country:
         query_string += f"&country={country}"
     # print(f"{query_string=}")
-    return requests.get(f"{news['base_url']}/v2/top-headlines?apiKey={news['api_key']}{query_string}").json()
+    response = requests.get(f"{news['base_url']}/v2/top-headlines?apiKey={news['api_key']}{query_string}").json()
+    article_list = response['articles'][:15]
+    for item in article_list:
+        item['score'] = content_score(item['title'], item['description'], item['content'])
+    
+    return {'articles': article_list}
 
 @APP.route('/history/add', methods=["POST"])
 def history_add():
