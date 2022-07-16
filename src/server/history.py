@@ -10,3 +10,8 @@ class History:
             database = json.load(f)
         self.__database = database
         self.__users = database["users"]
+    
+
+    def __save_to_database(self):
+        with open(self.filename, "w+") as f:
+            json.dump(self.__database, f)
