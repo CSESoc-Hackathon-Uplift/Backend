@@ -31,3 +31,17 @@ class History:
         self.__save_to_database()
         
         return "success"
+
+    def visited(self, uuid):
+        """Return a list of articles in which the user, identified by `uuid`, has already read."""
+        if uuid not in self.__users:
+            return []
+        
+        return self.__users[uuid]
+
+if __name__ == "__main__":
+    history = History("database.json")
+    assert history.add("3c4d947dcff94c1ab50604284cbbe4be", "John Cena defeats Tom", "ABC News", "-80", "Irwin", "1657975610") == "success"
+    print(history.visited("3c4d947dcff94c1ab50604284cbbe4be"))
+    assert history.visited("invalid user") == []
+    assert history.add("27874d3a77884d009beed2aa9d5d12d7", "New user", "CBC News", "60", "Johnny", "1657975671") == "success"
