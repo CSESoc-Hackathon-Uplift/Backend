@@ -8,6 +8,8 @@ def avg_score(uuid):
 
     sum = 0
     n = 0
+    if uuid not in data["users"]:
+        data["users"][uuid] = []
     for item in data['users'][str(uuid)]:
         sum += item['score']
         n += 1
@@ -21,6 +23,8 @@ def most_common_source(uuid):
     """ return most common source for articles read by user """
     
     sources = {}
+    if uuid not in data["users"]:
+        data["users"][uuid] = []
     for item in data['users'][str(uuid)]:
         source = item['source']
         if source in sources:
@@ -38,6 +42,8 @@ def most_common_author(uuid):
     """ return most common source for articles read by user """
     
     authors = {}
+    if uuid not in data["users"]:
+        data["users"][uuid] = []
     for item in data['users'][str(uuid)]:
         author = item['author']
         if author in authors:
@@ -55,6 +61,9 @@ def read_bias_ratio(uuid):
     
     sources = {}
     authors = {}
+
+    if uuid not in data["users"]:
+        data["users"][uuid] = []
 
     for item in data['users'][str(uuid)]:
         author = item['author']
